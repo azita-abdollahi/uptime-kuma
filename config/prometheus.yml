@@ -1,0 +1,19 @@
+
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'uptime-kuma'
+    scrape_interval: 30s
+    metrics_path: '/metrics'
+    scheme: "http"
+    basic_auth: 
+      username: 'admin96'
+      password: 'admin123'
+    static_configs:
+      - targets: ['192.168.22.10:3001']
+    

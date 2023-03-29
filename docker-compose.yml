@@ -1,0 +1,62 @@
+version: "3"
+services: 
+  kuma:
+    image: louislam/uptime-kuma:1.20.2
+    container_name: kuma
+    restart: always
+    ports:
+      - 3001:3001
+    environment:
+      UPTIME_KUMA_ADMIN_EMAIL: admin@example.com
+      UPTIME_KUMA_ADMIN_PASSWORD: admin123
+      UPTIME_KUMA_BASIC_AUTH_USERNAME: admin96
+      UPTIME_KUMA_BASIC_AUTH_PASSWORD: admin123
+      UPTIME_KUMA_PROMETHEUS_URL: http://prometheus:9090/api/v1/query
+      UPTIMEKUMA_GRAFANA_ENABLE: true
+      UPTIMEKUMA_GRAFANA_URL: http://grafana:3000
+    volumes:
+      - ./uptime-kuma:/app/data
+    networks:
+      connet:
+        ipv4_address: 192.168.22.10
+    depends_on:
+      - prometheus
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    container_name: prometheus
+    restart: always
+    ports:
+      - 9090:9090
+    networks:
+      connet:
+        ipv4_address: 192.168.22.11
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus/data
+    user: "root:root"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+  grafana:
+    image: grafana/grafana:9.0.9
+    container_name: grafana
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    networks:
+     connet:
+       ipv4_address: 192.168.22.12
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./config/grafana:/etc/grafana/provisioning/
+      - grafana_data:/var/lib/grafana
+    
+networks:
+  connet:
+    external: true
+volumes:
+  grafana_data:
+  prometheus_data:
