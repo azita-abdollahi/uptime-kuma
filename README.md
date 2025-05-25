@@ -4,64 +4,43 @@ Uptime-kuma is a free and open-source self-hosted monitoring solution that can b
 
 Key features of uptime-kuma include:
 
-- Dashboard: A customizable dashboard that shows you the overall health and status of your monitored services.
-- Multi-location monitoring: Uptime-kuma allows you to monitor your services from multiple locations to ensure that they're available to users around the world.
-- Integration with popular notification services: Uptime-kuma can send alerts to popular notification services such as Slack, Telegram, and Email, so you can receive alerts in the way that works best for you.
-- User management: Uptime-kuma allows you to manage multiple user accounts, so you can grant access to your monitoring dashboard to your team members.
-- Responsive design: The user interface of uptime-kuma is designed to work well on desktop and mobile devices, so you can easily monitor your services from anywhere.
+- Dashboard: A customizable dashboard that shows you the overall health…work well on desktop and mobile devices, so you can easily monitor your services from anywhere.
 
 Instructions for installation and usage of uptime-kuma can be found on the official GitHub repository: https://github.com/louislam/uptime-kuma
 
 Uptime-kuma is a great monitoring tool for anyone who needs to monitor the uptime and performance of their services. It's easy to install and configure, and it provides all the features you need to ensure that your services are always available to your users.
 
-# Prerequisites
+### 🚀 Features
 
-- Docker and Docker Compose are installed.
-- Port 3000 and 9090 and 3001 are free and available on your machine.
+- Uptime monitoring (HTTP, TCP, Ping, etc.)
+- Metrics collection using Prometheus
+- Visual dashboards via Grafana
+- Custom alerting with Prometheus Alertmanager
+- Push notifications via Gotify
+- Docker-based deployment
+- Modular and extensible setup
 
-## Getting Started
+### 📦 Quick Start
 
-1. Create a new directory for the project:
+1. Clone the repository
+2. Update configuration files as needed (Prometheus, Alertmanager, Gotify URL)
+3. Run `docker-compose up -d`
+4. Access:
+   - Uptime Kuma: `http://localhost:3001`
+   - Prometheus: `http://localhost:9090`
+   - Grafana: `http://localhost:3000`
+   - Alertmanager: `http://localhost:9093`
+   - alert-producer(send notifications to gotify service): `http://localhost:8435`
 
-   ```shell
-   mkdir uptime-kuma
-   cd uptime-kuma
-   ```
+### 📚 Documentation
 
-2. Create a new `docker-compose.yml` file:
+Complete setup instructions and advanced usage details are available in the GitHub Wiki:
 
-   see [`here`](https://github.com/azita-abdollahi/uptime-kuma/blob/master/docker-compose.yml).
-
-3. Create a new `prometheus.yml` file:
-
-   see [`here`](https://github.com/azita-abdollahi/uptime-kuma/blob/master/config/prometheus.yml).
-
-### Run Project:	
-
-```shell
-#start containers
-docker compose up -d
-#stop containers
-docker compose down
-#follow logs
-docker compose logs -f
-```
-
-Note: these commands use for create volumes
-
-```shell
-docker volume create prometheus_data
-docker volume create grafana_data
-```
-
-and this command use for create network:
-
-```shell
-docker network create \
-  --driver=bridge \
-  --subnet=192.168.22.0/24 \
-  --ip-range=192.168.22.0/24 \
-  --gateway=192.168.22.254 \
-  connet
-```
+- 1. [Overview](https://github.com/azita-abdollahi/uptime-kuma/wiki/01%E2%80%90Overview-Uptime-Kuma-Monitoring-Stack)
+- 2. [Installation Guide](https://github.com/azita-abdollahi/uptime-kuma/wiki/02%E2%80%90Installation%E2%80%90Guide-Prerequisites)
+- 3. [Prometheus & Alert Rules](https://github.com/azita-abdollahi/uptime-kuma/wiki/03%E2%80%90Prometheus%E2%80%90&%E2%80%90Alert%E2%80%90Rules-prometheus.yml)
+- 4. [Alertmanager Configuration](https://github.com/azita-abdollahi/uptime-kuma/wiki/04%E2%80%90Alertmanager%E2%80%90Configuration-alertmanager.yml)
+- 5. [Grafana Dashboards](https://github.com/azita-abdollahi/uptime-kuma/wiki/05%E2%80%90Grafana%E2%80%90Dashboards-Setup-Grafana)
+- 6. [Security Best Practices](https://github.com/azita-abdollahi/uptime-kuma/wiki/06%E2%80%90Security%E2%80%90Best%E2%80%90Practices)
+- 7. [Troubleshooting](https://github.com/azita-abdollahi/uptime-kuma/wiki/07%E2%80%90Troubleshooting)
 
