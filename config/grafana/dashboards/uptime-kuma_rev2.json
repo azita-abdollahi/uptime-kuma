@@ -46,25 +46,15 @@
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "mappings": [
             {
               "options": {
-                "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "DOWN"
-                },
-                "1": {
-                  "color": "green",
-                  "index": 1,
-                  "text": "UP"
-                }
+                "0": { "color": "red", "index": 0, "text": "DOWN" },
+                "1": { "color": "green", "index": 1, "text": "UP" }
               },
               "type": "value"
             }
@@ -72,35 +62,22 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 1 }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 0,
-        "y": 0
-      },
+      "gridPos": { "h": 8, "w": 9, "x": 0, "y": 0 },
       "id": 4,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
-        "orientation": "auto",
+        "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -111,35 +88,25 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "monitor_status ",
+          "expr": "monitor_status{monitor_name=~\"$monitor\"}",
           "interval": "",
           "legendFormat": "{{ monitor_name }}",
           "refId": "A"
         }
       ],
-      "title": "Site Status",
+      "title": "Current Monitor Status",
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
+          "color": { "mode": "thresholds" },
           "mappings": [
             {
               "options": {
-                "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "EXPIRED"
-                },
-                "1": {
-                  "color": "green",
-                  "index": 1,
-                  "text": "VALID"
-                }
+                "0": { "color": "red", "index": 0, "text": "EXPIRED" },
+                "1": { "color": "green", "index": 1, "text": "VALID" }
               },
               "type": "value"
             }
@@ -147,35 +114,22 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 1
-              }
+              { "color": "red", "value": 0 },
+              { "color": "green", "value": 1 }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 12,
-        "y": 0
-      },
+      "gridPos": { "h": 8, "w": 9, "x": 12, "y": 0 },
       "id": 5,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
-        "orientation": "auto",
+        "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -186,179 +140,120 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "monitor_cert_is_valid",
+          "expr": "monitor_cert_is_valid{monitor_name=~\"$monitor\"}",
           "interval": "",
           "legendFormat": "{{ monitor_name }}",
           "refId": "A"
         }
       ],
-      "title": "TLS Certificate Status",
+      "title": "TLS Certificate Validity",
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
+          "color": { "mode": "palette-classic" },
           "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "showPoints": "always",
+            "pointSize": 4
           },
           "unit": "ms"
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 0,
-        "y": 8
-      },
+      "gridPos": { "h": 9, "w": 18, "x": 3, "y": 8 },
       "id": 2,
       "options": {
-        "legend": {
-          "calcs": [
-            "max",
-            "min",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
+        "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
       },
       "targets": [
         {
           "exemplar": true,
-          "expr": "sum(monitor_response_time{}) by (monitor_name)",
+          "expr": "sum(monitor_response_time{monitor_name=~\"$monitor\"}) by (monitor_name)",
           "interval": "",
           "legendFormat": "{{ monitor_name }}",
           "refId": "A"
         }
       ],
-      "title": "Response Times",
+      "title": "Monitor Response Times",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
+          "color": { "mode": "thresholds" },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 30
-              },
-              {
-                "color": "green",
-                "value": 60
-              }
+              { "color": "red", "value": 15 },
+              { "color": "#EAB839", "value": 30 },
+              { "color": "green", "value": null }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 8,
-        "w": 9,
-        "x": 12,
-        "y": 8
-      },
+      "gridPos": { "h": 8, "w": 9, "x": 12, "y": 17 },
       "id": 6,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
         "justifyMode": "center",
-        "orientation": "auto",
+        "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
-        "text": {},
         "textMode": "auto"
       },
       "pluginVersion": "8.1.1",
       "targets": [
         {
           "exemplar": true,
-          "expr": "monitor_cert_days_remaining",
+          "expr": "monitor_cert_days_remaining{monitor_name=~\"$monitor\"}",
           "interval": "",
           "legendFormat": "{{ monitor_name }}",
           "refId": "A"
         }
       ],
-      "title": "TLS Certificate Remaining Days",
+      "title": "TLS Certificate Days Remaining",
       "type": "stat"
     }
   ],
   "schemaVersion": 30,
   "style": "dark",
-  "tags": [],
+  "tags": ["uptime", "monitoring", "tls", "certificates"],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "monitor",
+        "label": "Select Monitor",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(monitor_status, monitor_name)",
+        "refresh": 1,
+        "includeAll": true
+      }
+    ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-12h",
     "to": "now"
   },
-  "timepicker": {},
-  "timezone": "",
-  "title": "Uptime Kuma",
+  "timepicker": {
+    "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "1h"],
+    "time_options": ["15m", "1h", "6h", "12h", "24h", "2d", "7d"]
+  },
+  "timezone": "browser",
+  "title": "Uptime Kuma Dashboard",
   "uid": "CN8E-vZ7k",
-  "version": 1,
-  "description": "A dashboard to show the data from the excellent Uptime Kuma project!"
+  "version": 3,
+  "description": "A visually improved Uptime Kuma dashboard with enhanced layout, clearer panel names, updated time range, and color schemes."
 }
