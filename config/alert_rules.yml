@@ -1,0 +1,111 @@
+groups:
+  - name: uptime-kuma-alerts
+    rules:
+      # 1. Uptime Kuma is completely unreachable
+      - alert: UptimeKumaDown
+        expr: up{job="uptime-kuma"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Uptime Kuma instance is down"
+          description: "The Uptime Kuma instance has been unreachable for more than 5 minutes."
+
+      # 2. Target Service is DOWN
+      - alert: TargetServiceDown
+        expr: monitor_status == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "A monitored target is down"
+          description: "One of the services monitored by Uptime Kuma is failing."
+
+      # 3. High Response Time (> 1000 ms)
+      - alert: HighResponseTime
+        expr: monitor_response_time > 1000
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High response time detected"
+          description: "The response time of a monitored service exceeded 1000ms for over 1 minute."
+
+      # 4. Frequent Failures (Success rate < 80% over 5 minutes)
+      - alert: FrequentFailures
+        expr: rate(monitor_status[5m]) < 0.8
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High failure rate for uptime checks"
+          description: "Less than 80% of uptime checks succeeded in the last 5 minutes."
+
+      # 5. Certificate Expiry Imminent (< 7 days)
+      - alert: SSLCertExpiringSoon
+        expr: monitor_cert_days_remaining < 7
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "SSL certificate expiring soon"
+          description: "A monitored service's certificate expires in less than 7 days."
+
+      # 6. Invalid SSL Certificate
+      - alert: InvalidSSLCertificate
+        expr: monitor_cert_is_valid == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "SSL certificate is invalid"
+          description: "The SSL certificate of a monitored service is not valid."
+
+      # 7. Uptime Kuma Memory Usage Too High (> 500MB)
+      - alert: UptimeKumaHighMemory
+        expr: process_resident_memory_bytes{job="uptime-kuma"} > 500000000
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Uptime Kuma high memory usage"
+          description: "Uptime Kuma is consuming more than 500MB of RAM."
+
+      # 8. Uptime Kuma Restart Detected
+      - alert: UptimeKumaRestart
+        expr: changes(process_start_time_seconds{job="uptime-kuma"}[5m]) > 0
+        labels:
+          severity: info
+        annotations:
+          summary: "Uptime Kuma was restarted"
+          description: "A restart of the Uptime Kuma process was detected in the last 5 minutes."
+
+      # 9. High Event Loop Lag (> 0.2s)
+      - alert: EventLoopLagHigh
+        expr: nodejs_eventloop_lag_seconds > 0.2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Node.js event loop lag"
+          description: "Event loop lag exceeded 200ms, which could indicate performance issues."
+
+      # 10. High Heap Usage (> 90% of total heap)
+      - alert: HighHeapUsage
+        expr: (nodejs_heap_size_used_bytes / nodejs_heap_size_total_bytes) > 0.9
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High heap memory usage"
+          description: "Node.js heap memory usage is over 90% of the total allocated heap."
+
+      # 11. Too Many Open Connections
+      - alert: TooManyOpenConnections
+        expr: expressjs_number_of_open_connections > 100
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Too many open connections"
+          description: "There are more than 100 open connections to the Express.js server."
