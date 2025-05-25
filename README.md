@@ -36,11 +36,11 @@ Uptime-kuma is a great monitoring tool for anyone who needs to monitor the uptim
 
 Complete setup instructions and advanced usage details are available in the GitHub Wiki:
 
-- 1. [Overview](https://github.com/azita-abdollahi/uptime-kuma/wiki/01%E2%80%90Overview-Uptime-Kuma-Monitoring-Stack)
-- 2. [Installation Guide](https://github.com/azita-abdollahi/uptime-kuma/wiki/02%E2%80%90Installation%E2%80%90Guide-Prerequisites)
-- 3. [Prometheus & Alert Rules](https://github.com/azita-abdollahi/uptime-kuma/wiki/03%E2%80%90Prometheus%E2%80%90&%E2%80%90Alert%E2%80%90Rules-prometheus.yml)
-- 4. [Alertmanager Configuration](https://github.com/azita-abdollahi/uptime-kuma/wiki/04%E2%80%90Alertmanager%E2%80%90Configuration-alertmanager.yml)
-- 5. [Grafana Dashboards](https://github.com/azita-abdollahi/uptime-kuma/wiki/05%E2%80%90Grafana%E2%80%90Dashboards-Setup-Grafana)
-- 6. [Security Best Practices](https://github.com/azita-abdollahi/uptime-kuma/wiki/06%E2%80%90Security%E2%80%90Best%E2%80%90Practices)
-- 7. [Troubleshooting](https://github.com/azita-abdollahi/uptime-kuma/wiki/07%E2%80%90Troubleshooting)
+-  [Overview](https://github.com/azita-abdollahi/uptime-kuma/wiki/01%E2%80%90Overview-Uptime-Kuma-Monitoring-Stack)
+-  [Installation Guide](https://github.com/azita-abdollahi/uptime-kuma/wiki/02%E2%80%90Installation%E2%80%90Guide-Prerequisites)
+-  [Prometheus & Alert Rules](https://github.com/azita-abdollahi/uptime-kuma/wiki/03%E2%80%90Prometheus%E2%80%90&%E2%80%90Alert%E2%80%90Rules-prometheus.yml)
+-  [Alertmanager Configuration](https://github.com/azita-abdollahi/uptime-kuma/wiki/04%E2%80%90Alertmanager%E2%80%90Configuration-alertmanager.yml)
+-  [Grafana Dashboards](https://github.com/azita-abdollahi/uptime-kuma/wiki/05%E2%80%90Grafana%E2%80%90Dashboards-Setup-Grafana)
+-  [Security Best Practices](https://github.com/azita-abdollahi/uptime-kuma/wiki/06%E2%80%90Security%E2%80%90Best%E2%80%90Practices)
+-  [Troubleshooting](https://github.com/azita-abdollahi/uptime-kuma/wiki/07%E2%80%90Troubleshooting)
 
