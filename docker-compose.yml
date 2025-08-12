@@ -1,34 +1,37 @@
-services: 
+version: '3.8'
+
+services:
   kuma:
-    image: louislam/uptime-kuma:1.23.16
+    image: louislam/uptime-kuma:${KUMA_VERSION}
     container_name: kuma
     restart: always
     ports:
-      - 3001:3001
+      - ${KUMA_PORT}:${KUMA_PORT}
     environment:
-      UPTIME_KUMA_ADMIN_EMAIL: admin@example.com
-      UPTIME_KUMA_ADMIN_PASSWORD: admin123
-      UPTIME_KUMA_BASIC_AUTH_USERNAME: admin96
-      UPTIME_KUMA_BASIC_AUTH_PASSWORD: admin123
-      UPTIME_KUMA_PROMETHEUS_URL: http://prometheus:9090/api/v1/query
-      UPTIMEKUMA_GRAFANA_ENABLE: true
-      UPTIMEKUMA_GRAFANA_URL: http://grafana:3000
+      UPTIME_KUMA_ADMIN_EMAIL: ${UPTIME_KUMA_ADMIN_EMAIL}
+      UPTIME_KUMA_ADMIN_PASSWORD: ${UPTIME_KUMA_ADMIN_PASSWORD}
+      UPTIME_KUMA_BASIC_AUTH_USERNAME: ${UPTIME_KUMA_BASIC_AUTH_USERNAME}
+      UPTIME_KUMA_BASIC_AUTH_PASSWORD: ${UPTIME_KUMA_BASIC_AUTH_PASSWORD}
+      UPTIME_KUMA_PROMETHEUS_URL: ${UPTIME_KUMA_PROMETHEUS_URL}
+      UPTIMEKUMA_GRAFANA_ENABLE: ${UPTIMEKUMA_GRAFANA_ENABLE}
+      UPTIMEKUMA_GRAFANA_URL: ${UPTIMEKUMA_GRAFANA_URL}
     volumes:
       - ./uptime-kuma:/app/data
     networks:
       connet:
-        ipv4_address: 192.168.22.10
+        ipv4_address: ${KUMA_IPV4}
     depends_on:
       - prometheus
+
   prometheus:
-    image: prom/prometheus:v2.51.1
+    image: prom/prometheus:${PROMETHEUS_VERSION}
     container_name: prometheus
     restart: unless-stopped
     ports:
-      - 9090:9090
+      - ${PROMETHEUS_PORT}:${PROMETHEUS_PORT}
     networks:
       connet:
-        ipv4_address: 192.168.22.11
+        ipv4_address: ${PROMETHEUS_IPV4}
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus/data
@@ -41,58 +44,60 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--web.enable-lifecycle'
+
   alertmanager:
-    image: prom/alertmanager:v0.27.0
+    image: prom/alertmanager:${ALERTMANAGER_VERSION}
     container_name: alertmanager
     volumes:
       - ./config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
     ports:
-      - 9093:9093
+      - ${ALERTMANAGER_PORT}:${ALERTMANAGER_PORT}
     networks:
       connet:
-        ipv4_address: 192.168.22.14
+        ipv4_address: ${ALERTMANAGER_IPV4}
 
-  alert-producer: 
-    image: alert-producer:v1
+  alert-producer:
+    image: alert-producer:${ALERT_PRODUCER_VERSION}
     container_name: alert-producer
-    build:  
+    build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8435:8435
+      - ${ALERT_PRODUCER_PORT}:${ALERT_PRODUCER_PORT}
     restart: unless-stopped
     environment:
-      - GOTIFY_URL=http://GOTIFY_URL/
-      - GOTIFY_DEFAULT_PRIORITY=5
-      - GOTIFY_TOKEN=test 
-      - PORT=8435
+      GOTIFY_URL: ${GOTIFY_URL}
+      GOTIFY_DEFAULT_PRIORITY: ${GOTIFY_DEFAULT_PRIORITY}
+      GOTIFY_TOKEN: ${GOTIFY_TOKEN}
+      PORT: ${ALERT_PRODUCER_PORT}
     networks:
       connet:
-        ipv4_address: 192.168.22.15
+        ipv4_address: ${ALERT_PRODUCER_IPV4}
 
   grafana:
-    image: grafana/grafana:10.1.9
+    image: grafana/grafana:${GRAFANA_VERSION}
     container_name: grafana
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - ${GRAFANA_PORT}:${GRAFANA_PORT}
     depends_on:
       - prometheus
     networks:
-     connet:
-       ipv4_address: 192.168.22.12
+      connet:
+        ipv4_address: ${GRAFANA_IPV4}
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
     volumes:
       - ./config/grafana:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
-    
+
 networks:
   connet:
     external: true
+
 volumes:
   grafana_data:
   prometheus_data:
